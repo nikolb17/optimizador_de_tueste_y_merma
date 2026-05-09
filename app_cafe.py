@@ -11,7 +11,6 @@ st.set_page_config(page_title="Sabor Nacional Optimizer", layout="wide")
 # --- DISEÑO MULTIMEDIA Y ANIMACIONES (CSS) ---
 st.markdown("""
     <style>
-    /* Fondo con granos de café */
     .stApp {
         background: linear-gradient(rgba(253, 250, 245, 0.92), rgba(253, 250, 245, 0.92)),
                     url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=2000');
@@ -19,7 +18,6 @@ st.markdown("""
         background-size: cover;
     }
 
-    /* Animación de granos de café cayendo */
     @keyframes fall {
         0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
         100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
@@ -33,12 +31,10 @@ st.markdown("""
         animation: fall 3.5s linear forwards;
     }
 
-    /* Logo interactivo */
     .logo-container { display: flex; justify-content: center; padding: 10px; }
     .logo-img { width: 320px; transition: transform 0.5s; }
     .logo-img:hover { transform: rotate(-2deg) scale(1.05); }
 
-    /* Estilo del Título Principal */
     .main-title {
         color: #4b2c20;
         font-family: 'Helvetica Neue', sans-serif;
@@ -50,12 +46,10 @@ st.markdown("""
         letter-spacing: 2px;
     }
 
-    /* Galería Hero */
     .hero-gallery { display: flex; gap: 20px; overflow: hidden; padding: 20px 0; justify-content: center; }
     .hero-img { width: 260px; height: 160px; object-fit: cover; border-radius: 20px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); animation: slide 8s infinite alternate ease-in-out; }
     @keyframes slide { from { transform: translateY(8px); } to { transform: translateY(-8px); } }
 
-    /* Botón Gigante */
     div.stButton > button {
         background: linear-gradient(45deg, #4b2c20, #8b5a2b) !important;
         color: white !important;
@@ -83,10 +77,7 @@ def animar_granos():
 
 # --- HEADER: LOGO Y TÍTULO ---
 logo_url = "https://raw.githubusercontent.com/nikolb17/optimizador_de_tueste_y_merma/37e620726061dd64a35fc51a4d53253a712fb8a6/logo%20vectorizado%20sabor%20nacional.png"
-
 st.markdown(f'<div class="logo-container"><img src="{logo_url}" class="logo-img"></div>', unsafe_allow_html=True)
-
-# EL TÍTULO QUE HACÍA FALTA:
 st.markdown('<h1 class="main-title">OPTIMIZADOR DE TUESTE Y MERMA DE CAFÉ</h1>', unsafe_allow_html=True)
 
 # Galería Hero
@@ -128,7 +119,6 @@ with col_form:
         if m is not None:
             animar_granos()
             st.success(f"¡Lote '{lote}' registrado con éxito!")
-            
             m1, m2 = st.columns(2)
             m1.metric("MERMA (%)", f"{m:.2f}%")
             m2.metric("DESARROLLO (DTR %)", f"{d:.2f}%")
@@ -143,10 +133,8 @@ with col_form:
 # --- HISTORIAL Y TABLA ---
 st.write("---")
 archivo_csv = 'historial_tuestes_sabor_nacional.csv'
-
 if os.path.exists(archivo_csv):
     df_h = pd.read_csv(archivo_csv)
-    
     st.subheader("📊 Consistencia de Tueste")
     fig = px.area(df_h, x='Lote', y=['Merma %', 'DTR %'], markers=True, 
                   color_discrete_sequence=['#4b2c20', '#a67c52'])
@@ -157,7 +145,6 @@ if os.path.exists(archivo_csv):
     st.subheader("📋 Historial Detallado (Base de Datos)")
     st.dataframe(df_h.sort_values(by='Fecha', ascending=False), use_container_width=True)
     
-    # Descarga
     csv = df_h.to_csv(index=False).encode('utf-8')
     st.download_button("📥 Descargar Reporte para Excel", data=csv, file_name='historial_sabor_nacional.csv', mime='text/csv')
 else:
